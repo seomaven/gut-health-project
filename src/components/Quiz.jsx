@@ -3,8 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Quiz.css';
 import QuizSkeleton from './QuizSkeleton';
 import { supabase } from '../supabaseClient'; // Import Supabase client
-import { calculateResult } from './Quiz'; // Import calculateResult
-// Export questions directly
 export const questions = [
   {
     text: 'How often do you experience bloating?',
@@ -57,6 +55,22 @@ export const questions = [
     scores: [0, 1, 2, 3],
   },
 ];
+
+// Export calculateResult
+export function calculateResult(answers, questions) {
+  let totalScore = 0;
+  for (let i = 0; i < questions.length; i++) {
+    if (answers[i] !== null) {
+      totalScore += questions[i].scores[answers[i]];
+    }
+  }
+
+  if (totalScore <= 10) {
+    return 'Probiotic Pro';
+  } else {
+    return 'Leaky Gut Warrior';
+  }
+}
 
 function Quiz() {
   // ... (rest of your Quiz component code) ...
