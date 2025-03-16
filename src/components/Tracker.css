@@ -1,0 +1,35 @@
+.tracker-item {
+      margin-bottom: 10px;
+    }
+
+    .tracker-item label {
+      display: flex;
+      align-items: center;
+      font-size: 16px; /* Larger font size */
+    }
+
+    .tracker-item input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.5); /* Make checkbox larger */
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      background-color: #eee;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background-color: var(--primary-color);
+      border-radius: 5px;
+      transition: width 0.3s ease;
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+      .tracker-item label {
+        font-size: 18px; /* Even larger font on small screens */
+      }
+    }

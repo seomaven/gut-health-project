@@ -1,0 +1,51 @@
+.skeleton-text {
+      width: 80%;
+      height: 1rem;
+      background-color: #ddd;
+      margin: 10px 0;
+      border-radius: 4px;
+      animation: shimmer 2s infinite;
+    }
+
+    .skeleton-heading {
+      width: 60%;
+      height: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .skeleton-checkbox {
+      width: 20px;
+      height: 20px;
+      background-color: #ddd;
+      margin-right: 10px;
+      border-radius: 4px;
+      animation: shimmer 2s infinite;
+    }
+
+    .skeleton-bar-container {
+      width: 100%;
+      height: 20px;
+      background-color: #eee;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .skeleton-bar {
+      width: 50%; /* Start with a smaller width */
+      height: 100%;
+      background-color: #ddd;
+      border-radius: 5px;
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-color: #ddd;
+      }
+      50% {
+        background-color: #eee;
+      }
+      100% {
+        background-color: #ddd;
+      }
+    }

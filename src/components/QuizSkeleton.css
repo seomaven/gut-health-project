@@ -1,0 +1,34 @@
+.skeleton-text {
+      width: 80%;
+      height: 1rem;
+      background-color: #ddd;
+      margin: 10px auto;
+      border-radius: 4px;
+      animation: shimmer 2s infinite;
+    }
+
+    .skeleton-heading {
+      width: 60%;
+      height: 1.5rem;
+    }
+
+    .skeleton-button {
+      width: 90%;
+      height: 40px;
+      background-color: #ddd;
+      margin: 5px auto;
+      border-radius: 5px;
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-color: #ddd;
+      }
+      50% {
+        background-color: #eee;
+      }
+      100% {
+        background-color: #ddd;
+      }
+    }

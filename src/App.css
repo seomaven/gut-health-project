@@ -1,0 +1,52 @@
+.app {
+      text-align: center;
+    }
+
+    nav {
+      background-color: var(--nav-background-color);
+      padding: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+
+    nav li {
+      margin: 0.5rem 0; /* Add vertical margin for spacing */
+    }
+
+    nav li a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: bold;
+      padding: 1rem 1.5rem; /* Increased padding for larger tap targets */
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      display: block; /* Make the entire area clickable */
+    }
+
+    nav li a:hover,
+    nav li a.active {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column; /* Stack navigation items vertically */
+        align-items: center;
+      }
+
+      nav li {
+        width: 100%; /* Full width for each navigation item */
+        text-align: center;
+      }
+      nav li a {
+        padding: 1rem;
+      }
+    }
