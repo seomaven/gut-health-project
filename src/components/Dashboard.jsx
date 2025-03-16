@@ -259,136 +259,23 @@ function Dashboard() {
       <ul>
         {earnedBadges.map((badgeName) => (
           <li key={badgeName}>
-                   {badgeName}
-                  <button onClick={() => handleShareBadge(badgeName)}>Share Badge</button>
-                </li>
-              ))}
-            </ul>
+            {badgeName}
+            <button onClick={() => handleShareBadge(badgeName)}>Share Badge</button>
+          </li>
+        ))}
+      </ul>
 
-            <canvas ref={canvasRef} style={{ display: 'none' }} />
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-            {shareImage && (
-              <div>
-                <h4>Shareable Badge (Simulated)</h4>
-                <img src={shareImage} alt="Badge" style={{ border: '1px solid #ddd' }} />
-                <p>Right-click and save this image to share.</p>
-              </div>
-            )}
-          </div>
-        );
-      }
+      {shareImage && (
+        <div>
+          <h4>Shareable Badge (Simulated)</h4>
+          <img src={shareImage} alt="Badge" style={{ border: '1px solid #ddd' }} />
+          <p>Right-click and save this image to share.</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
-      export default Dashboard;
-      ```
-
-**Next Steps:**
-
-1.  **Save all the changes:** Save all the updated files (`App.jsx`, `supabaseClient.js`, `Auth.jsx`, `Quiz.jsx`, `Tracker.jsx`, `Waitlist.jsx`, `Dashboard.jsx`).
-2.  **Test the App:**
-    *   Run your app (e.g., `npm run dev`).
-    *   **Test Authentication:** Register a new user, log in, and test social login (if enabled). Verify that the user is created in the Supabase `auth.users` table.
-    *   **Test Quiz:** Take the quiz and verify that the results are saved to the `quiz_results` table.
-    *   **Test Tracker:** Toggle the checkboxes and verify that the data is saved to the `tracker_data` table.
-    *   **Test Waitlist:** Enter an email address and verify that the data is saved to the `waitlist` table.
-    *   **Test Dashboard:** Verify that the streak and badges are displayed correctly (this will require some manual testing and potentially creating some test data in Supabase).
-3.  **Address Errors:** If you encounter any errors during testing, carefully examine the error messages and the Supabase logs. Make sure your code matches the table structure in Supabase.
-4.  **Implement Netlify Functions (for Mailchimp):**
-    *   Create a `netlify/functions` directory in your project.
-    *   Create a file named `mailchimp.js` inside the `netlify/functions` directory.
-    *   Add the following code to `mailchimp.js`:
-        ```javascript
-        // netlify/functions/mailchimp.js
-        const { MAILCHIMP_API_KEY, MAILCHIMP_AUDIENCE_ID } = process.env;
-
-        const mailchimp = require("@mailchimp/mailchimp_marketing");
-
-        mailchimp.setConfig({
-          apiKey: MAILCHIMP_API_KEY,
-          server: MAILCHIMP_API_KEY.split('-')[1], // Extract server prefix
-        });
-
-        exports.handler = async (event) => {
-          try {
-            const { email, gutType } = JSON.parse(event.body);
-
-            await mailchimp.lists.addListMember(MAILCHIMP_AUDIENCE_ID, {
-              email_address: email,
-              status: "subscribed",
-              merge_fields: {
-                GUT_TYPE: gutType, // Add gut type as a merge field
-              },
-            });
-
-            return {
-              statusCode: 200,
-              body: JSON.stringify({ message: 'Subscription successful!' }),
-            };
-          } catch (error) {
-            console.error("Mailchimp error:", error);
-            return {
-              statusCode: error.status || 500,
-              body: JSON.stringify({ error: error.message }),
-            };
-          }
-        };
-        ```
-    *   **Set Environment Variables in Netlify:**
-        *   In your Netlify dashboard, go to **Site Settings** > **Environment Variables**.
-        *   Add the following environment variables:
-            *   `MAILCHIMP_API_KEY`: Your Mailchimp API key.
-            *   `MAILCHIMP_AUDIENCE_ID`: Your Mailchimp audience ID.
-    *   **Update `Quiz.jsx` (and potentially other components) to use the Netlify Function:**
-        ```javascript
-        // src/components/Quiz.jsx (modified handleGetGuide)
-        const handleGetGuide = async () => {
-          if (email) {
-            const gutType = calculateResult(answers, questions);
-
-            // Save quiz result to Supabase
-            const { data: quizResultData, error: quizResultError } = await supabase
-              .from('quiz_results')
-              .insert([{ user_id: (await supabase.auth.getUser()).data.user?.id, gut_type: gutType }]);
-
-            if (quizResultError) {
-              console.error("Error saving quiz result:", quizResultError);
-              setMessage("Error saving quiz result: " + quizResultError.message);
-            } else {
-              // Call Netlify Function to subscribe to Mailchimp
-              try {
-                const response = await fetch('/.netlify/functions/mailchimp', {
-                  method: 'POST',
-                  body: JSON.stringify({ email: email, gutType: gutType }),
-                });
-
-                const responseData = await response.json();
-                if (response.ok) {
-                  setMessage(responseData.message);
-                } else {
-                  setMessage(`Mailchimp error: ${responseData.error}`);
-                }
-              } catch (fetchError) {
-                console.error("Fetch error:", fetchError);
-                setMessage("Network error: Could not subscribe.");
-              }
-              setEmail('');
-              setShowPopup(false);
-            }
-          }
-        };
-        ```
-
-8.  **Test Mailchimp Integration:**
-    *   Take the quiz and enter your email address.
-    *   Check your Mailchimp audience to see if you've been added as a subscriber.
-    *   Verify that the `GUT_TYPE` merge field is populated correctly.
-
-9.  **Implement Google Analytics (if desired):**
-    *   Add the Google Analytics tracking code to your `index.html` file (inside the `<head>` tag).
-    *   Use the `simulateGoogleAnalyticsEvent` function in `Quiz.jsx` and `Dashboard.jsx` to send events to Google Analytics.
-
-10. **Refine and Deploy:**
-    *   Continue to refine the app based on your testing and user feedback.
-    *   Deploy the updated code to Netlify.
-
-This is a significant undertaking, but by following these steps, you should be able to build a functional and deployable version of your "Gut Guardian" app using Supabase and Netlify. Remember to test each step thoroughly and address any errors you encounter. Good luck!
-           
+export default Dashboard;
