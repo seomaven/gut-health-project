@@ -1,3 +1,4 @@
+import supabase from '../supabaseClient';
 import React from 'react';
     import './Shop.css';
 

@@ -1,79 +1,57 @@
-// src/components/Quiz.jsx
-import React, { useState, useRef, useEffect } from 'react';
-import './Quiz.css';
-import QuizSkeleton from './QuizSkeleton';
-import { supabase } from '../supabaseClient'; // Import Supabase client
-export const questions = [
-  {
-    text: 'How often do you experience bloating?',
-    options: ['Rarely or Never', 'Sometimes', 'Often', 'Constantly'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How often do you eat processed foods?',
-    options: ['Rarely or Never', '1-2 times a week', '3-5 times a week', 'Daily'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How often do you consume fermented foods (e.g., yogurt, kimchi)?',
-    options: ['Daily', 'A few times a week', 'Rarely', 'Never'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How often do you feel stressed?',
-    options: ['Rarely', 'Sometimes', 'Often', 'Constantly'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How many servings of fruits and vegetables do you eat per day?',
-    options: ['5+', '3-4', '1-2', 'Less than 1'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How often do you experience heartburn or acid reflux?',
-    options: ['Rarely or Never', 'Sometimes', 'Often', 'Constantly'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How regular are your bowel movements?',
-    options: ['Very Regular', 'Mostly Regular', 'Irregular', 'Very Irregular'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'Do you take antibiotics frequently?',
-    options: ['Never', 'Rarely', 'Sometimes', 'Often'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'How well do you sleep on average?',
-    options: ['Very Well', 'Well', 'Poorly', 'Very Poorly'],
-    scores: [0, 1, 2, 3],
-  },
-  {
-    text: 'Do you have any known food sensitivities or allergies?',
-    options: ['No', 'I suspect some', 'Yes, a few', 'Yes, many'],
-    scores: [0, 1, 2, 3],
-  },
-];
-
-// Export calculateResult
-export function calculateResult(answers, questions) {
-  let totalScore = 0;
-  for (let i = 0; i < questions.length; i++) {
-    if (answers[i] !== null) {
-      totalScore += questions[i].scores[answers[i]];
+.options {
+      display: flex;
+      flex-direction: column;
     }
-  }
 
-  if (totalScore <= 10) {
-    return 'Probiotic Pro';
-  } else {
-    return 'Leaky Gut Warrior';
-  }
-}
+    .options button {
+      margin: 5px;
+      padding: 15px; /* Increased padding */
+      border: 1px solid var(--primary-color);
+      border-radius: 5px;
+      background-color: white;
+      cursor: pointer;
+      font-size: 16px; /* Larger font size */
+    }
 
-function Quiz() {
-  // ... (rest of your Quiz component code) ...
-}
+    .options button:hover {
+      background-color: var(--secondary-color);
+    }
 
-export default Quiz;
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .popup input[type="email"] {
+      margin-bottom: 10px;
+      padding: 10px; /* Increased padding */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px; /* Larger font size */
+    }
+
+    .popup button {
+      padding: 12px 18px; /* Increased padding */
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px; /* Larger font size */
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+      .options button,
+      .popup input[type="email"],
+      .popup button {
+        font-size: 18px; /* Even larger font on small screens */
+      }
+    }
